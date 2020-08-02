@@ -1,0 +1,79 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model Team3B_ShoppingCart.Models.Product
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_HomeLayout";
+
+}
+
+
+<script>
+
+    function addProduct(id) {
+
+        $.get("/Home/AddToCart?productID=" + id, id, function (message, status) {
+            console.log(message);
+        }).then(function() {
+            return $.get("/ProductDetail/updateBasketNum", function (data) {
+                console.log(data)
+                counter = data.display;
+                $("#counter").html(counter).animate({
+                    'opacity': '0'
+                }, 300, function () {
+                    $("#counter").delay(300).animate({
+                        'opacity': '1'
+                    })
+                })
+            });
+
+
+        })
+       
+    }
+
+    
+</script>
+
+
+<div class="container">
+    <div class="row" style="margin-top:20px">
+
+        <a href="/Basket/Index" style="margin-left:95%">
+            <div class="cart">
+                <i class="zmdi zmdi-shopping-cart" style="height:10px"></i>
+                <div class="badge" id="counter"><span>@ViewBag.CartNumber</span></div>
+            </div>
+        </a>
+    </div>
+    <div id="div_HomeView"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+
+        <img src="~/Content/img/@Model.ImageURL" style="margin-bottom:20px;height:200px">
+
+    </div>
+
+    <div class="col-md-8">
+        <div style="height:50px">
+            <p style="color:black!important;font-size:15px">@Model.ProductName</p>
+        </div>
+        <div style="height:50px;display:flex;flex-direction:row">
+            <p style="color:black!important;font-size:10px;width:20%">Description</p>
+            <p style="color:black!important;font-size:10px;width:80%">@Model.Description</p>
+        </div>
+        <div style="height:50px;display:flex;flex-direction:row">
+            <p style="color:black!important;font-size:10px;width:20%">Price</p>
+            <p style="color:black!important;font-size:10px;width:80%">@Model.ProductPrice</p>
+        </div>
+        <button id="btn_@Model.ProductID" onclick="addProduct('@Model.ProductID')">Add to basket</button>
+    </div>
+</div>
+
+
+
+

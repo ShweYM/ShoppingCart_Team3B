@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "_HomeLayout";
+    //string loginsessionid = ViewData["loginSessionId"].ToString();
+}
+
+<h1>Checkout</h1>
+
+<button type="button" onclick="Checkoutbtn()">Check Out</button>
+
+@section scripts{
+    <script>
+     $(function () {
+
+    })
+    function Checkoutbtn() {
+         $.ajax({
+            cache: false,
+             url: '@Url.Action("GetDataFromCart", "Checkout")',
+             data: {  },
+             beforeSend: function () {
+                 
+            },
+            success: function (result) {
+                if (result == "Success") {
+                    alert('Success');
+                }
+                else {
+                    alert('Fail');
+                }
+            },
+            complete: function () {
+
+            }
+    });
+    }
+    </script>
+
+}

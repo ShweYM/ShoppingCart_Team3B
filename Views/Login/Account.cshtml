@@ -1,0 +1,138 @@
+﻿@model Team3B_ShoppingCart.Models.Customer;
+@{
+    ViewData["Title"] = "Account";
+    Layout = "_HomeLayout";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="list-group ">
+                <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
+                <a href="/Home/Index" class="list-group-item list-group-item-action">Home</a>
+                <a href="/PurchaseHistory/PurchaseHistory" class="list-group-item list-group-item-action">View Purchases</a>
+                <a href="/Basket/Index" class="list-group-item list-group-item-action">View Cart</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Add a user</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form>
+                                <div class="row">
+                                    <label for="username" class="col-4">User Name*</label>
+                                    <div class="col-8">
+                                        @Model.CustomerID
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Email*</label>
+                                    <div class="col-8">
+                                        @Model.EmailAddress
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name" class="col-4 col-form-label">First Name</label>
+                                    <div class="col-8">
+                                        @Model.FirstName
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                    <div class="col-8">
+                                        @Model.LastName
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="address" class="col-4 col-form-label">Address</label>
+                                    <div class="col-8">
+                                        @Model.Address
+                                    </div>
+                                </div>
+                                <input type="hidden" id="email" value="@Model.EmailAddress" />
+                                
+                                <div class="form-group row">
+                                    <label for="website" class="col-4 col-form-label">Old Password</label>
+                                    <div class="col-8">
+                                        <input id="oldpass" placeholder="Old Password" class="form-control here" required="required" type="password">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pass" class="col-4 col-form-label">New Password</label>
+                                    <div class="col-8">
+                                        <input id="newpass" placeholder="New Password" class="form-control here" required="required" type="password">
+                                    </div>
+                                </div>
+                                @*<div class="form-group row">
+            <label class="col-4">send user notification</label>
+            <div class="col-8">
+                <label class="custom-control custom-checkbox">
+                    <input name="checkbox" class="custom-control-input" value="user-notification" type="checkbox">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">send the new user an email about their account.</span>
+                </label>
+            </div>
+        </div>*@
+                                <div class="btn-toolbar" style="padding-left: 15px">
+                                    <button class="btn btn-primary" onclick="UpdatePassword()">Update Password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{ 
+
+    @*//<script scr="~/Scripts/bootstrap.min.js" rel="stylesheet" />
+    //<script scr="~/Scripts/jquery.min.js" rel="stylesheet" />*@
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(function(){
+       $('.navbar').hide();
+    
+    })
+
+    function UpdatePassword() {
+        var password = $('#oldpass').val();
+        var email = $('#email').val();
+        var newpassword = $('#newpass').val();
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("UpdatePassword", "Login")',
+            data: { oldpassword: password, email: email, newpassword: newpassword },
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                
+                if (result.success == "Success") {                  
+                    location.href = "../Login/Index";
+                }
+                else {
+                    alert("Fail");
+                }
+            },
+            complete: function () {
+
+            }
+    });
+    }
+</script>
+}

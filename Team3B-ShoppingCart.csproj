@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Team3B_ShoppingCart</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="wwwroot\Content\img\adobepremier.png" />
+    <None Include="wwwroot\Content\img\autodesk.jpg" />
+    <None Include="wwwroot\Content\img\bently.jpeg" />
+    <None Include="wwwroot\Content\img\finalcutx-vl.jpg" />
+    <None Include="wwwroot\Content\img\iWork.jpg" />
+    <None Include="wwwroot\Content\img\Iwork1.jpg" />
+    <None Include="wwwroot\Content\img\mac2019hs.png" />
+    <None Include="wwwroot\Content\img\microsoft-office-365-logo.png" />
+    <None Include="wwwroot\Content\img\MSPro2019.jpg" />
+    <None Include="wwwroot\Content\img\revit-2020.jpg" />
+    <None Include="wwwroot\Content\img\revit2019.jpg" />
+    <None Include="wwwroot\Content\img\vegas-pro.png" />
+    <None Include="wwwroot\Content\img\wps.jpg" />
+    <None Include="wwwroot\Scripts\bootstrap-confirmation.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap-datepicker.js" />
+    <None Include="wwwroot\Scripts\bootstrap-datetimepicker.js" />
+    <None Include="wwwroot\Scripts\bootstrap-datetimepicker.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap-timepicker.js" />
+    <None Include="wwwroot\Scripts\bootstrap.js" />
+    <None Include="wwwroot\Scripts\bootstrap.min.js" />
+    <None Include="wwwroot\Scripts\bootstrapValidator.js" />
+    <None Include="wwwroot\Scripts\bootstrap_multiselect.js" />
+    <None Include="wwwroot\Scripts\jquery.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Scripts\" />
+  </ItemGroup>
+
+
+</Project>

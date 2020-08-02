@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@{ 
+    string val = (string?)ViewBag.CustomerName;
+    System.Diagnostics.Debug.WriteLine("This is from razor page: " + val);
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome</title>
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />*@
+
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+    <link href="~/Content/css/custom.css" rel="stylesheet" />
+    <link href="~/Content/css/customhome.css" rel="stylesheet" />
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+    @*<link href="~/Content/assets/css/bootstrap.css" />*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                @Html.ActionLink("CW&T Shop", "Index", "Home", new { area = "" }, new { @class = "navbar-brand menu", @id = "li_home" })
+            </div>
+            <div class="navbar-header">
+                @Html.ActionLink("My Purchases", "PurchaseHistory", "PurchaseHistory", new { area = "" }, new { @class = "navbar-brand  menu", @id = "li_purchase" })
+            </div>
+            @{
+                if (ViewData["loginSessionId"] is null)
+                {
+                    <div class="navbar-header">
+                        @Html.ActionLink("Login", "Index", "Login", new { area = "" }, new { @class = "navbar-brand menu", @id = "li_login" })
+                    </div>
+                }
+                else if (ViewData["loginSessionId"] != null)
+                {
+                    <div class="navbar-header">
+                        @Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "navbar-brand menu" })
+                    </div>
+                }
+            }
+            <div class="navbar-header" style="float:right">
+                @{
+                    if (val is null)
+                    {
+                        <li></li>
+                    }
+                    else if (val != null)
+                    {
+                        <li>@Html.ActionLink(val.ToString(), "Account", "Login", new { login = ViewData["CustomerID"].ToString() }, new { @class = "navbar-brand menu", @id = "li_account" })</li>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    @*<div class="container">
+
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>*@
+
+    <div class="container body-content" style="margin-top:50px">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Developed By Team3(B) - NUS(ISS)</p>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

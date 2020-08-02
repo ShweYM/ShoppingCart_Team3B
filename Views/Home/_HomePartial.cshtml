@@ -1,0 +1,29 @@
+﻿@model List<Team3B_ShoppingCart.Models.Product>
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            <div class='product--blue'>
+
+                <div class='product_inner'>
+                    <a class='product_inner' href="@Url.Action("Index", "ProductDetail",new { id = item.ProductID })">
+                        <img src="~/Content/img/@item.ImageURL" style="margin-bottom:20px;height:30px">
+
+                        <div class="text_non_overflow product_title">@item.ProductName</div>
+                        <div class='text_non_overflow product_text'>@item.Description</div>
+                        <div class="text_non_overflow product_text">@item.ProductPrice</div>
+
+                    </a>
+                    <button id="btn_@item.ProductID" onclick="AddProduct('@item.ProductID')">Add to basket</button>
+
+                </div>
+
+                <div class='product_overlay'>
+                    <h2>Added to basket</h2>
+                    <i class='fa fa-check'></i>
+                </div>
+            </div>
+        </div>
+    }
+</div>

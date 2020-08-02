@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "Checkout";
+    string loginsessionid = ViewData["loginSessionId"].ToString();
+}
+
+<h1>Checkout</h1>
+
+<button type="button" onclick="Checkoutbtn()">Check Out</button>
+
+@section scripts{
+<script>
+     $(function () {
+        
+    })
+    function Checkoutbtn() {
+         $.ajax({
+            cache: false,
+             url: '@Url.Action("GetDataFromCart", "Checkout")',
+             data: { loginsessionid: loginsessionid },
+            beforeSend: function () {
+
+            },
+            success: function () {
+                
+            },
+            complete: function () {
+
+            }
+    });
+    }
+</script>
+   
+}

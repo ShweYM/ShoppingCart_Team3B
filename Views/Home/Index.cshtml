@@ -1,0 +1,229 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_HomeLayout";
+}
+
+@*<header>
+        <ul>
+            <i class='fa fa-shopping-cart'>
+                <span class='counter'></span>
+            </i>
+        </ul>
+    </header>*@
+
+<style>
+
+    .zmdi {
+        font-size: larger !important;
+    }
+    .cart {
+        position: relative;
+        padding: 5px;
+        margin-bottom: 15px;
+        font-size: 24px;
+        text-align: center;
+        color: #777;
+    }
+
+
+    .badge {
+        padding: 3px 7px;
+        position: absolute;
+        right: 106px;
+        top: -5px;
+        display: inline-block;
+        background-color: #F44336;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+        .badge:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 100%;
+            height: 100%;
+            border: dotted #F44336 2px;
+            border-radius: 20px;
+            opacity: 0;
+        }
+</style>
+
+<div class="container">
+    <div class="row" style="margin-top:20px">
+        <div class="col-md-9 col-xs-9 col-sm-9 text-center pt-15 pr-15 pb-0">
+            <div class="has-feedback has-feedback-left">
+                <input type="text" class="form-control rounded-input" placeholder="Search Product Name" id="txt_productname" onkeyup="keySearch(this.value)">
+                <div class="form-control-feedback">
+                    <i class="icons icon-Search text-size-base"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a href="/Basket/Index">
+                <div class="cart">
+                    <i class="zmdi zmdi-shopping-cart"></i>
+                    <div class="badge" id="counter"><span>0</span></div>
+                </div>
+            </a>
+            @*<img src="~/Content/assets/img/cart.png" style="text-align:right;width:40px;height:40px" /><span class='counter'></span>*@
+        </div>
+    </div>
+    <div id="div_HomeView"></div>
+
+</div>
+
+@section scripts{
+
+    @*<script src="~/Content/js/customhome.js"></script>*@
+    <script>
+        var timeout;
+        var loading = $('#progress');
+        var init = "0";
+
+        var counter = 0;
+
+
+    // Initial Cart
+    $("#counter").html(init);
+        $(function () {
+
+            HomeView();
+            getBasketCount();
+
+            $('.menu').removeClass('active');
+            $('#li_home').addClass('active');
+
+        })
+
+
+       function getBasketCount() {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("getBasketCount", "Home")',
+            data: {},
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                if (result.success != null) {
+                    $('#counter').empty().append(result.success)
+                }
+                else {
+                  $('#counter').empty().append(0)
+                }
+            },
+            complete: function () {
+
+            }
+    });
+        }
+
+        function HomeView() {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("HomeViewIndex", "Home")',
+            data: {},
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                if (result != null) {
+                    $('#div_HomeView').empty().append(result)
+                }
+                else {
+                    alert("Fail");
+                }
+            },
+            complete: function () {
+
+            }
+    });
+        }
+
+        function AddProduct(id) {
+
+            $.get("/home/addtocart?productID=" + id, id ,function (message, status) {
+                console.log(message);
+            });
+
+            $('#btn_'+id).parent().parent().find(".product_overlay").css({
+            'transform': ' translateY(0px)',
+            'opacity': '1',
+            'transition': 'all ease-in-out .45s'
+        }).delay(1500).queue(function () {
+            $('.product_overlay').css({
+                'transform': 'translateY(-500px)',
+                'opacity': '0',
+                'transition': 'all ease-in-out .45s'
+            }).dequeue();
+        });
+            addToBasket();
+        }
+
+        function addToBasket() {
+        var c = parseInt($('#counter').text());
+        counter = c + 1;
+        $("#counter").html(counter).animate({
+            'opacity': '0'
+        }, 300, function () {
+            $("#counter").delay(300).animate({
+                'opacity': '1'
+            })
+        })
+    }
+
+    //Search
+    function keySearch(e) {
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+            Search(e);
+        }, 500);
+    }
+
+    function Search() {
+        productname = $('#txt_productname').val().trim();
+        productlist();
+    }
+
+    var currentRequest;
+    function productlist() {
+        currentRequest = $.ajax({
+            cache: false,
+            url: '@Url.Action("SearchProduct", "Home")',
+            data: { productname:productname },
+
+            beforeSend: function () {
+                if (currentRequest != null) {
+                    currentRequest.abort();
+                }
+                isLoading = true;
+                hasResult = false;
+                loading.show();
+            },
+            success: function (result) {
+                if (result != null) {
+                    $('#div_HomeView').empty().append(result)
+                }
+                else {
+
+                }
+
+            },
+            complete: function () {
+                isLoading = false;
+                loading.hide();
+            }
+        });
+    }
+
+
+    </script>
+}

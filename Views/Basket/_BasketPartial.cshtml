@@ -1,0 +1,78 @@
+﻿@model List<Team3B_ShoppingCart.Models.CheckoutCart>
+
+@{        
+   double subtotal = 0;
+            double total = 0;
+
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <table id="cart" class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th style="width:50%">Product</th>
+                <th style="width:10%">Price</th>
+                <th style="width:10%">Quantity</th>
+                <th style="width:22%" class="text-center">Subtotal</th>
+                <th style="width:10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+
+                total = 0;
+
+<tr>
+                    <td data-th="Product">
+                        <div class="row">
+                            <div class="col-sm-4 hidden-xs"><img src="~/Content/img/@item.Image"></div>
+                            <div class="col-sm-8">
+                                <h4 class="nomargin">@item.ProductName</h4>
+                                <p>@item.ProductDescription</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-th="Price">@item.ProductPrice</td>
+                    <td data-th="Quantity">                        
+                        <div class="qty">
+                            <button class="minus-btn button" type="button" name="button" onclick="minus('@item.ProductID')">-</button>
+                            <input type="text" min="1" id="qty" @*onkeyup="updateqty(this)"*@value="@item.ProductQty" class="item-count">
+                            <button class="plus-btn button" type="button" name="button" onclick="plus('@item.ProductID')">+</button>
+                        </div>
+                    </td>
+                    <td data-th="Subtotal" class="text-center">
+                    @{
+                        double qty = item.ProductQty;
+                        double price = item.ProductPrice;
+                        total = qty * price;
+                     }
+                        @total
+
+                    </td>
+                    <td class="actions" data-th="">
+                        <button class="btn btn-danger btn-sm" onclick="Remove('@item.ProductID')"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+                subtotal = subtotal + total;
+            }
+
+        </tbody>
+        <tfoot>
+            <tr class="visible-xs">
+                <td class="text-center"><strong>Total</strong></td>
+            </tr>
+            <tr>
+                <td><a href="/Home/Index" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                <td colspan="2" class="hidden-xs"></td>
+                <td class="hidden-xs text-center"><strong>Total $ @subtotal</strong></td>
+                <td><a href="#" class="btn btn-success btn-block" onclick="Checkout()">Checkout <i class="fa fa-angle-right"></i></a></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>     
+
+
+
+   }

@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "_HomeLayout";
+}
+
+<style>
+      .qty input {
+            -webkit-appearance: none;
+            border: none;
+            text-align: center;
+            width: 40px;
+            font-size: 13px;
+            color: #43484D;
+            font-weight: 300;
+        }
+
+        .button {
+            width: 25px;
+            height: 25px;
+            background-color: #E1E8EE;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+   
+
+</style>
+
+<div id="div_viewcart"></div>
+
+@section scripts{
+    @*<script src="~/Content/js/basket.js"></script>*@
+<script>
+    $(function () {
+        ViewCart();
+    });
+
+    function ViewCart() {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("BasketIndex", "Basket")',
+            data: {},
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                if (result != null) {
+                    $('#div_viewcart').empty().append(result)
+                }
+                else {
+                    alert("Fail");
+                }
+            },
+            complete: function () {
+
+            }
+    });
+    }
+
+    function minus(productid) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("ReduceItem", "Basket")',
+            data: {productid:productid},
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                if (result.success == "Success") {
+                    ViewCart();
+                }
+                else {
+                    alert("Fail");
+                }
+            },
+            complete: function () {
+
+            }
+    });
+    }
+
+    function plus(productid) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("AddItem", "Basket")',
+            data: {productid:productid},
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                alert(result.success);
+                if (result.success == "Success") {
+                   
+                    ViewCart();
+                }
+                else {
+                    alert("Fail");
+                }
+            },
+            complete: function () {
+
+            }
+    });
+    }
+
+    function Remove(productid) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("Remove", "Basket")',
+            data: {productid:productid},
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                if (result.success == "Success") {
+                    ViewCart();
+                }
+                else {
+                    alert("Fail");
+                }
+            },
+            complete: function () {
+
+            }
+    });
+    }
+
+    function Checkout() {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("GetDataFromCart", "Basket")',
+            data: {},
+            beforeSend: function () {
+
+            },
+            success: function (result) {
+                if (result.success == "Success") {
+                    location.href = "../PurchaseHistory/PurchaseHistory";
+                }
+                else {
+                    viewcart = "viewcart"
+                    location.href = "../Login/Index?cmd=viewcart";
+                }
+            },
+            complete: function () {
+
+            }
+    });
+    }
+
+
+    
+
+   
+</script>
+    
+}
+
